@@ -145,8 +145,12 @@ public class DependencyWorker extends AbstractBehavior<DependencyWorker.Message>
 		}
 
 		// check idn within tables
-		checkInternalIdn(t.getT1(), t1Entries, idn);
-		checkInternalIdn(t.getT2(), t2Entries, idn);
+		if (t.isCheckT1()) {
+			checkInternalIdn(t.getT1(), t1Entries, idn);
+		}
+		if (t.isCheckT2()) {
+			checkInternalIdn(t.getT2(), t2Entries, idn);
+		}
 
 		getContext().getLog().info("Finished {}! First: {}, Second: {}", message.task, t1Entries.size(), t2Entries.size());
 		message.resultCollector.tell(new ResultCollector.ResultMessage(idn));

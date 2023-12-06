@@ -92,6 +92,8 @@ public class DependencyMiner extends AbstractBehavior<DependencyMiner.Message> {
 	public static class Task {
 		private Table t1;
 		private Table t2;
+		private boolean checkT1;
+		private boolean checkT2;
 	}
 
 	////////////////////////
@@ -139,6 +141,7 @@ public class DependencyMiner extends AbstractBehavior<DependencyMiner.Message> {
 	private final Queue<RegistrationMessage> dependencyWorkers;
 	private Queue<Task> queue = new LinkedList<>();
 	private final List<Table> tables = new LinkedList<>();
+	private final HashMap<File, Boolean> internalIdn = new HashMap<>();
 	private final Map<Integer, Task> pending = new HashMap<>();
 	private int taskCount = 0;
 
@@ -168,7 +171,11 @@ public class DependencyMiner extends AbstractBehavior<DependencyMiner.Message> {
 	private Behavior<Message> handle(ContentMessage message) {
 		Table newTable = new Table(message.file, message.header, message.content);
 		for (Table otherTable : tables) {
-			queue.add(new Task(newTable, otherTable));
+			boolean checkT1 = internalIdn.get(newTable.file) == null;
+			boolean checkT2 = internalIdn.get(otherTable.file) == null;
+			queue.add(new Task(newTable, otherTable, checkT1, checkT2));
+			internalIdn.put(newTable.file, true);
+			internalIdn.put(otherTable.file, true);
 		}
 		tables.add(newTable);
 		handleFreeWorker();
