@@ -124,20 +124,20 @@ public class DependencyWorker extends AbstractBehavior<DependencyWorker.Message>
 				if (t1Entries.get(i).containsAll(t2Entries.get(j))) {
 					getContext().getLog().info("{} contains all {}", t.getT1().getHeaders()[i], t.getT2().getHeaders()[j]);
 					InclusionDependency result = new InclusionDependency(
-							t.getT1().getFile(),
-							new String[]{ t.getT1().getHeaders()[i] },
 							t.getT2().getFile(),
-							new String[]{ t.getT2().getHeaders()[j] }
+							new String[]{ t.getT2().getHeaders()[j] },
+							t.getT1().getFile(),
+							new String[]{ t.getT1().getHeaders()[i] }
 					);
 					idn.add(result);
 				}
 				if (t2Entries.get(j).containsAll(t1Entries.get(i))) {
 					getContext().getLog().info("{} contains all {}", t.getT2().getHeaders()[j], t.getT1().getHeaders()[i]);
 					InclusionDependency result = new InclusionDependency(
-							t.getT2().getFile(),
-							new String[]{ t.getT2().getHeaders()[j] },
 							t.getT1().getFile(),
-							new String[]{ t.getT1().getHeaders()[i] }
+							new String[]{ t.getT1().getHeaders()[i] },
+							t.getT2().getFile(),
+							new String[]{ t.getT2().getHeaders()[j] }
 					);
 					idn.add(result);
 				}
