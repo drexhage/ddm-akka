@@ -175,9 +175,9 @@ public class DependencyWorker extends AbstractBehavior<DependencyWorker.Message>
 			getContext().getLog().info("{} contains all {}", t.getHeaders()[j], t.getHeaders()[i]);
 			InclusionDependency result = new InclusionDependency(
 					t.getFile(),
-					new String[]{ t.getHeaders()[j] },
+					new String[]{ t.getHeaders()[i] },
 					t.getFile(),
-					new String[]{ t.getHeaders()[i] }
+					new String[]{ t.getHeaders()[j] }
 			);
 			idn.add(result);
 		}
